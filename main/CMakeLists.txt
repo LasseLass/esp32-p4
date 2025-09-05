@@ -1,0 +1,14 @@
+idf_component_register(
+  SRCS
+    "camera_main.c"
+  INCLUDE_DIRS
+    "."
+  REQUIRES
+    esp_video
+    esp_cam_sensor
+    esp_sccb_intf
+    esp_http_server
+    esp_event
+    esp_netif
+    nvs_flash
+)

@@ -1,0 +1,74 @@
+menu "Camera / CSI settings"
+
+config CAM_I2C_PORT
+    int "I2C port for camera control bus"
+    range 0 1
+    default 0
+    help
+        Select the I2C controller number used for the camera control bus.
+
+config CAM_I2C_SDA_GPIO
+    int "I2C SDA GPIO"
+    range -1 49
+    default 4
+    help
+        GPIO number for I2C SDA connected to the camera's control bus.
+        ESP32-P4 FireBeetle 2: GPIO 4 (safe pin, GPIO0 has boot conflicts).
+
+config CAM_I2C_SCL_GPIO
+    int "I2C SCL GPIO"
+    range -1 49
+    default 5
+    help
+        GPIO number for I2C SCL connected to the camera's control bus.
+        ESP32-P4 FireBeetle 2: GPIO 5 (safe pin, GPIO1 has boot conflicts).
+
+config CAM_I2C_FREQ_HZ
+    int "I2C Frequency (Hz)"
+    range 10000 1000000
+    default 100000
+    help
+        I2C bus frequency for camera communication. Standard frequencies are 100kHz or 400kHz. Try 100kHz if issues persist.
+
+config CAM_I2C_TIMEOUT_MS
+    int "I2C transaction timeout (ms)"
+    range 10 1000
+    default 200
+    help
+        Timeout applied to I2C probe/read operations.
+
+config CAM_I2C_USE_INTERNAL_PULLUPS
+    bool "Enable internal pull-ups on SDA/SCL"
+    default y
+    help
+        Enable GPIO internal pull-ups for I2C lines. Prefer external 2.2k–4.7k pull-ups when possible.
+
+config CAM_PWR_EN_GPIO
+    int "Camera PWR_EN GPIO (-1 to disable)"
+    range -1 49
+    default 10
+    help
+        GPIO that enables camera power rails. RPi Camera Module 3 needs external power.
+        Try GPIO 10 or another available pin. Set to -1 if power is always on.
+
+config CAM_PWR_EN_ACTIVE_HIGH
+    bool "PWR_EN is active HIGH"
+    default y
+    help
+        If enabled, drives HIGH to enable camera power. Otherwise LOW enables power.
+
+config CAM_RESET_GPIO
+    int "Camera RESET GPIO (-1 to disable)"
+    range -1 49
+    default 11
+    help
+        GPIO connected to camera reset pin for proper initialization sequence.
+        Try GPIO 11 or another available pin. Set to -1 if not connected.
+
+config CAM_RESET_ACTIVE_LOW
+    bool "RESET is active LOW"
+    default y
+    help
+        If enabled, a LOW level asserts reset. Otherwise HIGH asserts reset.
+
+endmenu
