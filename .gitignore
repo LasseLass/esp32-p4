@@ -1,0 +1,139 @@
+# Build directory
+build/
+
+# Project configuration
+sdkconfig
+sdkconfig.old
+sdkconfig.ci
+
+# VS Code settings
+.vscode/
+!.vscode/settings.json
+!.vscode/launch.json
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Dependencies
+managed_components/
+components/
+
+# Logs and temporary files
+*.log
+*.swp
+*.swo
+.DS_Store
+
+# IDE specific files
+.idea/
+*.iml
+
+# Local development files
+*.local.*
+
+# ESP-IDF specific
+**/dependencies.lock
+**/sdkconfig.old
+**/sdkconfig.ci
+**/sdkconfig.defaults
+**/sdkconfig.defaults.*
+
+# Ignore all binary files
+*.bin
+*.hex
+*.elf
+*.map
+*.lss
+*.srec
+*.list
+*.log
+*.bin
+*.hex
+*.elf
+*.map
+*.lss
+*.srec
+*.list
+*.log
+
+# Ignore all object files
+*.o
+*.d
+*.a
+*.la
+*.lo
+*.lst
+
+# Ignore all executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+
+# Project specific
+main/.DS_Store
+main/*.o
+main/*.d
+
+# Doxygen output
+doc/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+
+# ESP-IDF build system
+compile_commands.json
+project_description.json
+flasher_args.json
+config/sdkconfig.h
+config/sdkconfig.cmake
+
+# Python virtual environment
+venv/
+env/
+ENV/
+
+# Windows specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# MacOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux specific
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Project specific ignores
+# Add any project specific files or directories here
+
+# Keep these files
+!.gitkeep
+!README.md
+!LICENSE
+!CONTRIBUTING.md
