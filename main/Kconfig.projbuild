@@ -10,25 +10,26 @@ config CAM_I2C_PORT
 config CAM_I2C_SDA_GPIO
     int "I2C SDA GPIO"
     range -1 49
-    default 4
+    default 7
     help
         GPIO number for I2C SDA connected to the camera's control bus.
-        ESP32-P4 FireBeetle 2: GPIO 4 (safe pin, GPIO0 has boot conflicts).
+        ESP32-P4 with IMX708: GPIO 7 (verified working configuration).
 
 config CAM_I2C_SCL_GPIO
     int "I2C SCL GPIO"
     range -1 49
-    default 5
+    default 8
     help
         GPIO number for I2C SCL connected to the camera's control bus.
-        ESP32-P4 FireBeetle 2: GPIO 5 (safe pin, GPIO1 has boot conflicts).
+        ESP32-P4 with IMX708: GPIO 8 (verified working configuration).
 
 config CAM_I2C_FREQ_HZ
     int "I2C Frequency (Hz)"
     range 10000 1000000
     default 100000
     help
-        I2C bus frequency for camera communication. Standard frequencies are 100kHz or 400kHz. Try 100kHz if issues persist.
+        I2C bus frequency for camera communication. 100kHz is verified working for IMX708.
+        400kHz is recommended but may cause issues with some hardware configurations.
 
 config CAM_I2C_TIMEOUT_MS
     int "I2C transaction timeout (ms)"

@@ -1,40 +1,45 @@
 | Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C5 | ESP32-C6 | ESP32-C61 | ESP32-H2 | ESP32-H21 | ESP32-H4 | ESP32-P4 | ESP32-S2 | ESP32-S3 | Linux |
 | ----------------- | ----- | -------- | -------- | -------- | -------- | --------- | -------- | --------- | -------- | -------- | -------- | -------- | ----- |
 
-# Hello World Example
+# ESP32-P4 Camera Application - IMX708 Support
 
-Starts a FreeRTOS task to print "Hello World".
+ESP32-P4 camera application with verified IMX708 (Raspberry Pi Camera Module 3) support.
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+## VERIFIED WORKING CONFIGURATION
 
-## How to use example
+**Hardware Setup:**
+- **XCLK:** GPIO15, 24MHz (critical requirement)
+- **I2C:** Port 0, SDA=GPIO7, SCL=GPIO8, 100kHz
+- **RESET:** GPIO11 (active LOW)
+- **PWDN:** GPIO10 (active LOW for power on)
+- **I2C Address:** 0x1A (7-bit)
 
-Follow detailed instructions provided specifically for this example.
+**Current Status:**
+- IMX708 sensor detection successful
+- I2C communication working (ACK received)
+- Chip ID 0x0708 verified
+- ISP pipeline configuration in progress
 
-Select the instructions depending on Espressif chip installed on your development board:
-
-- [ESP32 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/index.html)
-- [ESP32-S2 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/get-started/index.html)
-
-
-## Example folder contents
-
-The project **hello_world** contains one source file in C language [hello_world_main.c](main/hello_world_main.c). The file is located in folder [main](main).
-
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt` files that provide set of directives and instructions describing the project's source files and targets (executable, library, or both).
-
-Below is short explanation of remaining files in the project folder.
+## Project Structure
 
 ```
 ├── CMakeLists.txt
-├── pytest_hello_world.py      Python script used for automated testing
-├── main
+├── main/
 │   ├── CMakeLists.txt
-│   └── hello_world_main.c
-└── README.md                  This is the file you are currently reading
+│   ├── Kconfig.projbuild       # GPIO and I2C configuration
+│   ├── camera_main.c           # Main application
+│   └── idf_component.yml
+├── third_party/
+│   └── esp-video-components/   # ESP Video API components
+└── README.md                   # This file
 ```
 
-For more information on structure and contents of ESP-IDF projects, please refer to Section [Build System](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html) of the ESP-IDF Programming Guide.
+## Configuration
+
+Use `idf.py menuconfig` to configure camera settings under "Camera / CSI settings":
+- I2C SDA/SCL pins (default: GPIO7/GPIO8)
+- I2C frequency (default: 100kHz)
+- Power and reset pins (default: GPIO10/GPIO11)
 
 ## Troubleshooting
 

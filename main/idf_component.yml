@@ -2,23 +2,4 @@
 dependencies:
   idf: ">=5.5.0"
 
-  esp_video:
-    git: https://github.com/guilherme-binho/esp-video-components.git
-    path: esp_video
-    version: c2fe05973aa9499f83a594250e20d921052eb4d6
-
-  esp_cam_sensor:
-    git: https://github.com/guilherme-binho/esp-video-components.git
-    path: esp_cam_sensor
-    version: c2fe05973aa9499f83a594250e20d921052eb4d6
-
-  esp_sccb_intf:
-    git: https://github.com/guilherme-binho/esp-video-components.git
-    path: esp_sccb_intf
-    version: c2fe05973aa9499f83a594250e20d921052eb4d6
-
-  # esp_video bruker ofte IPA; kanskje greit å ha med
-  esp_ipa:
-    git: https://github.com/guilherme-binho/esp-video-components.git
-    path: esp_ipa
-    version: c2fe05973aa9499f83a594250e20d921052eb4d6
+# Using local components from third_party/esp-video-components instead of managed components
