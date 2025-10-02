@@ -12,16 +12,16 @@ config CAM_I2C_SDA_GPIO
     range -1 49
     default 7
     help
-        GPIO number for I2C SDA connected to the camera's control bus.
-        ESP32-P4 with IMX708: GPIO 7 (verified working configuration).
+        GPIO number for I2C SDA connected to the camera's control bus (CCI).
+        IMX708 (RPi Camera Module 3) proven working: GPIO 7 (1.8V CCI domain).
 
 config CAM_I2C_SCL_GPIO
     int "I2C SCL GPIO"
     range -1 49
     default 8
     help
-        GPIO number for I2C SCL connected to the camera's control bus.
-        ESP32-P4 with IMX708: GPIO 8 (verified working configuration).
+        GPIO number for I2C SCL connected to the camera's control bus (CCI).
+        IMX708 (RPi Camera Module 3) proven working: GPIO 8 (1.8V CCI domain).
 
 config CAM_I2C_FREQ_HZ
     int "I2C Frequency (Hz)"
@@ -42,21 +42,25 @@ config CAM_I2C_USE_INTERNAL_PULLUPS
     bool "Enable internal pull-ups on SDA/SCL"
     default y
     help
-        Enable GPIO internal pull-ups for I2C lines. Prefer external 2.2k–4.7k pull-ups when possible.
-
+        Enable GPIO internal pull-ups for I2C lines.
+        For RPi Camera Module 3: ENABLE this (module expects host-side pull-ups).
+        Recommended: 2.2-4.7 kOhm external pull-ups to 3.3V on host side.
+        Source: Raspberry Pi Camera Module 3 schematics (pull-ups on Pi side)
 config CAM_PWR_EN_GPIO
     int "Camera PWR_EN GPIO (-1 to disable)"
     range -1 49
     default 10
     help
-        GPIO that enables camera power rails. RPi Camera Module 3 needs external power.
-        Try GPIO 10 or another available pin. Set to -1 if power is always on.
+        GPIO that enables camera power rails (PWDN pin).
+        PROVEN WORKING: GPIO10 (from previous successful tests).
+        This configuration achieved IMX708 detection at 0x1A with chip ID 0x0708.
 
 config CAM_PWR_EN_ACTIVE_HIGH
     bool "PWR_EN is active HIGH"
-    default y
+    default n
     help
         If enabled, drives HIGH to enable camera power. Otherwise LOW enables power.
+        IMX708 PWDN pin is typically active LOW, so default is disabled (active LOW).
 
 config CAM_RESET_GPIO
     int "Camera RESET GPIO (-1 to disable)"
@@ -64,12 +68,53 @@ config CAM_RESET_GPIO
     default 11
     help
         GPIO connected to camera reset pin for proper initialization sequence.
-        Try GPIO 11 or another available pin. Set to -1 if not connected.
+        PROVEN WORKING: GPIO11 (from previous successful tests).
+        This configuration achieved IMX708 detection at 0x1A with chip ID 0x0708.
 
 config CAM_RESET_ACTIVE_LOW
     bool "RESET is active LOW"
     default y
     help
         If enabled, a LOW level asserts reset. Otherwise HIGH asserts reset.
+
+config CAM_XCLK_GPIO
+    int "Camera XCLK GPIO (-1 to disable)"
+    range -1 49
+    default 15
+    help
+        GPIO for external clock generation (XCLK/MCLK).
+        PROVEN WORKING: GPIO15 at 24MHz (CRITICAL REQUIREMENT from previous tests).
+        Previous memory states: 'XCLK: GPIO15, 24MHz (critical requirement)'.
+        This configuration achieved IMX708 detection at 0x1A with chip ID 0x0708.
+
+config CAM_XCLK_FREQ_HZ
+    int "Camera XCLK Frequency (Hz)"
+    range 6000000 30000000
+    default 24000000
+    depends on CAM_XCLK_GPIO != -1
+    help
+        External clock frequency for camera sensor.
+        Standard value: 24 MHz for most MIPI sensors.
+        Only used if CAM_XCLK_GPIO is configured (not -1).
+
+config CAM_ENABLE_GPIO
+    int "Camera ENABLE GPIO (-1 to disable)"
+    range -1 49
+    default 20
+    help
+        GPIO that enables camera module power rails (ENABLE pin).
+        For RPi Camera Module 3: This pin controls LDO (1.8V, 2.8V), 1.1V DC/DC, and oscillator.
+        CRITICAL: Must be HIGH before I2C communication.
+        Recommended: GPIO 20 or another free GPIO.
+        Source: Raspberry Pi Camera Module 3 schematics (ENABLE controlled by CAMGPIO0 on Pi)
+
+config CAM_ENABLE_ACTIVE_HIGH
+    bool "ENABLE is active HIGH"
+    default y
+    depends on CAM_ENABLE_GPIO != -1
+    help
+        If enabled, drives HIGH to enable camera power rails.
+        For RPi Camera Module 3: ENABLE is active HIGH.
+        Source: Raspberry Pi Camera Module 3 schematics
 
 endmenu
